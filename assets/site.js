@@ -2,11 +2,6 @@
 (() => {
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Years in AV, counted from September 2010, so it never goes out of date.
-  const start = new Date(2010, 8, 1), now = new Date();
-  const years = now.getFullYear() - start.getFullYear() - (now < new Date(now.getFullYear(), 8, 1) ? 1 : 0);
-  document.querySelectorAll('[data-years]').forEach(el => { el.textContent = years; });
-
   // Mobile menu
   const button = document.querySelector('.menu-button'), menu = document.getElementById('menu');
   const icons = { open: '<path d="M4 7h16M4 12h16M4 17h16"/>', close: '<path d="M6 6l12 12M18 6L6 18"/>' };
@@ -29,6 +24,7 @@
     e.target.querySelectorAll('[data-count]').forEach(countUp);
     io.unobserve(e.target);
   }), { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('in'));
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
   // Capability cards: soft spotlight follows the pointer
@@ -43,7 +39,7 @@
   if (statement) {
     statement.innerHTML = statement.textContent.trim().split(/\s+/).map(w => `<span>${w}</span>`).join(' ');
     words = [...statement.querySelectorAll('span')];
-    words.slice(-2).forEach(w => w.classList.add('hl'));
+    words.filter(w => /2010/.test(w.textContent)).forEach(w => w.classList.add('hl'));
   }
 
   const topbar = document.querySelector('.topbar');
