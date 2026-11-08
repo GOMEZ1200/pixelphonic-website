@@ -251,3 +251,8 @@ footer nav { display: flex; gap: 22px; }
 .tool .num { font: 600 13px/1 var(--body); letter-spacing: .25em; color: var(--tape); display: block; margin-bottom: 16px; text-transform: uppercase; }
 .tool p { color: var(--soft); margin: 0 0 22px; }
 @media (max-width: 900px) { .tools { grid-template-columns: 1fr; } }
+
+/* Opening line: each event type in its tape colour */
+.hero .eyebrow a { text-decoration: none; transition: text-shadow .3s; }
+.hero .eyebrow .ex { color: var(--t-blue); } .hero .eyebrow .co { color: var(--t-pink); } .hero .eyebrow .fe { color: var(--t-yellow); }
+.hero .eyebrow a:hover { text-shadow: 0 0 18px currentColor; }
