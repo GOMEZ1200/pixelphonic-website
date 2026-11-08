@@ -12,6 +12,9 @@
   --display: "Outfit", -apple-system, system-ui, "Segoe UI", sans-serif;
   --body: "Inter", -apple-system, system-ui, "Segoe UI", sans-serif;
   --ease: cubic-bezier(.2, .7, .2, 1);
+  /* Fluorescent gaffer tape: the only colour on the site, used like spike marks on a stage */
+  --t-orange: #ff5f1f; --t-pink: #ff2d95; --t-yellow: #e8ff1a; --t-blue: #1eb8ff; --t-green: #3dff5a;
+  --tape: var(--t-yellow);
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -89,7 +92,8 @@ a { color: inherit; }
 section { padding: 140px 0; position: relative; }
 @media (max-width: 700px) { section { padding: 90px 0; } }
 .kicker { display: inline-flex; align-items: center; gap: 12px; font: 500 12px/1 var(--body); letter-spacing: .32em; text-transform: uppercase; color: var(--soft); margin: 0 0 22px; }
-.kicker::before { content: ""; width: 28px; height: 1px; background: currentColor; }
+.kicker::before { content: ""; width: 34px; height: 9px; background: var(--tape); border-radius: 1px; transform: rotate(-3deg); box-shadow: 0 0 18px color-mix(in srgb, var(--tape) 45%, transparent);
+  -webkit-mask: linear-gradient(90deg, transparent 0 2px, #000 2px calc(100% - 2px), transparent calc(100% - 2px)); }
 h2 { font: 700 clamp(38px, 6vw, 72px)/1.02 var(--display); letter-spacing: -0.035em; margin: 0 0 22px; color: var(--fg); }
 h2 .soft, .soft { background: linear-gradient(135deg, #fff 10%, #8a8a8a 90%); -webkit-background-clip: text; background-clip: text; color: transparent; }
 h3 { font: 600 clamp(22px, 2.4vw, 30px)/1.15 var(--display); letter-spacing: -0.02em; margin: 0 0 14px; color: var(--fg); }
@@ -207,3 +211,23 @@ footer nav { display: flex; gap: 22px; }
 .expand .caption h2 { font-size: clamp(44px, 8vw, 110px); margin: 0; }
 @media (max-width: 700px) { .expand .frame { width: calc(84vw + 16vw * var(--grow)); height: calc(46vh + 54vh * var(--grow)); } }
 @media (prefers-reduced-motion: reduce) { .expand { height: auto; } .expand .sticky { position: relative; } .expand .frame { width: 100%; height: 100%; border-radius: 0; } .expand .caption { opacity: 1; transform: none; } }
+
+/* Tape colour accents */
+.tape-orange { --tape: var(--t-orange); } .tape-pink { --tape: var(--t-pink); } .tape-yellow { --tape: var(--t-yellow); } .tape-blue { --tape: var(--t-blue); } .tape-green { --tape: var(--t-green); }
+.hl { color: var(--tape); -webkit-text-fill-color: var(--tape); background: none; text-shadow: 0 0 30px color-mix(in srgb, var(--tape) 35%, transparent); }
+.button.solid:hover { background: var(--tape); border-color: var(--tape); color: #0b0b0b; box-shadow: 0 10px 40px -8px color-mix(in srgb, var(--tape) 60%, transparent); }
+.topbar nav a:not(.button)::after { background: var(--tape); height: 2px; }
+.feature .num { color: var(--tape); }
+.feature:hover li { border-color: color-mix(in srgb, var(--tape) 55%, #2c2c2c); }
+.feature .photo::before { content: ""; position: absolute; z-index: 2; left: 22px; top: 22px; width: 64px; height: 12px; background: var(--tape); transform: rotate(-4deg); border-radius: 1px; opacity: .95; box-shadow: 0 2px 10px rgba(0,0,0,.4); }
+.cap .icon, .pillar .icon { transition: background .3s, border-color .3s; }
+.cap .icon svg, .pillar .icon svg { stroke: var(--tape); }
+.cap:hover .icon { background: color-mix(in srgb, var(--tape) 14%, #1d1d1d); border-color: color-mix(in srgb, var(--tape) 50%, #2a2a2a); }
+.cap::before { background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--tape) 14%, transparent), transparent 45%); }
+.step .dot { border-color: color-mix(in srgb, var(--tape) 60%, #3a3a3a); }
+.step:hover .dot { background: var(--tape); border-color: var(--tape); color: #0b0b0b; box-shadow: 0 0 30px color-mix(in srgb, var(--tape) 50%, transparent); }
+.facts strong::after { content: ""; display: block; width: 26px; height: 4px; margin-top: 14px; background: var(--tape); }
+.statement span.lit.hl { color: var(--t-yellow); }
+.contact-cards a:hover { border-color: var(--tape); }
+.contact-cards .icon svg { stroke: var(--tape); }
+::selection { background: var(--t-yellow); color: #000; }

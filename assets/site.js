@@ -43,6 +43,7 @@
   if (statement) {
     statement.innerHTML = statement.textContent.trim().split(/\s+/).map(w => `<span>${w}</span>`).join(' ');
     words = [...statement.querySelectorAll('span')];
+    words.slice(-2).forEach(w => w.classList.add('hl'));
   }
 
   const topbar = document.querySelector('.topbar');
