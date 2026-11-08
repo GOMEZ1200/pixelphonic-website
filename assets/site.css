@@ -256,3 +256,5 @@ footer nav { display: flex; gap: 22px; }
 .hero .eyebrow a { text-decoration: none; transition: text-shadow .3s; }
 .hero .eyebrow .ex { color: var(--t-blue); } .hero .eyebrow .co { color: var(--t-pink); } .hero .eyebrow .fe { color: var(--t-yellow); }
 .hero .eyebrow a:hover { text-shadow: 0 0 18px currentColor; }
+
+.facts strong span { font: inherit; color: inherit; letter-spacing: inherit; }
