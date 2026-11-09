@@ -1,0 +1,25 @@
+{
+ "input": "../../../../reference/library/lib86.jpg",
+ "output": "../../screens/feeds/cam3-imag.jpg",
+ "width": 960,
+ "crop": [
+  0.0,
+  0.3,
+  0.62,
+  1.0
+ ],
+ "blur": [
+  {
+   "rect": [
+    0.35,
+    0.485,
+    0.53,
+    0.535
+   ],
+   "radius": 6
+  }
+ ],
+ "grain": 0.02,
+ "vignette": 0.0,
+ "contrast": 1.05
+}

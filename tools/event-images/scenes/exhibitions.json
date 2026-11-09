@@ -1,6 +1,9 @@
 {
-  "input": "../../../reference/library/lib41.jpg",
+  "input": "../../../reference/generated/expo-base.png",
   "output": "../out/exhibitions.jpg",
-  "width": 1600,
-  "grain": 0.04, "vignette": 0.5, "contrast": 1.1
+  "width": 1536,
+  "grain": 0.05,
+  "vignette": 0.45,
+  "contrast": 1.08,
+  "colour": []
 }

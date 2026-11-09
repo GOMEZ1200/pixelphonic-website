@@ -1,0 +1,25 @@
+{
+ "input": "../../../../reference/library/lib55.jpg",
+ "output": "../../screens/feeds/cam1-wide.jpg",
+ "width": 960,
+ "crop": [
+  0.02,
+  0.33,
+  0.98,
+  1.0
+ ],
+ "blur": [
+  {
+   "rect": [
+    0.43,
+    0.49,
+    0.64,
+    0.54
+   ],
+   "radius": 6
+  }
+ ],
+ "grain": 0.02,
+ "vignette": 0.0,
+ "contrast": 1.05
+}

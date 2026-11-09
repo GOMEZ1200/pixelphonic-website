@@ -1,0 +1,26 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+/* Broadcast-style multiview for a festival video world, 1920x1080. PGM = CAM 2, PVW = CAM 1. */
+html,body{margin:0;width:1920px;height:1080px;background:#000;overflow:hidden;font-family:"Menlo",monospace}
+.g{display:grid;grid-template-columns:repeat(4,480px);grid-template-rows:540px 270px 270px}
+.big{grid-column:span 2;position:relative;border:2px solid #222;box-sizing:border-box}
+.t{position:relative;border:2px solid #222;box-sizing:border-box;overflow:hidden}
+img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.l{position:absolute;left:0;right:0;bottom:8px;text-align:center;color:#fff;font:700 30px/1 Menlo,monospace;text-shadow:-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000,2px 2px 0 #000;z-index:2}
+.big .l{font-size:40px;bottom:14px}
+.pgm{box-shadow:inset 0 0 0 7px #e0201b}.pvw{box-shadow:inset 0 0 0 7px #2ad04a}
+.pgm img,.pvw img{inset:7px;width:calc(100% - 14px);height:calc(100% - 14px)}
+.tc{position:absolute;top:10px;left:14px;color:#fff;font:700 26px Menlo;z-index:2;text-shadow:0 0 3px #000}
+.m{position:absolute;right:8px;top:12%;width:10px;height:70%;background:linear-gradient(#0000 0 35%,#ccc 35%);z-index:2;opacity:.8}
+.bars{background:linear-gradient(90deg,#fff 0 14%,#ddd 14% 28%,#aaa 28% 42%,#888 42% 57%,#666 57% 71%,#444 71% 85%,#222 85%)}
+</style></head><body><div class="g">
+<div class="big"><img src="feeds/cam2-close.jpg"><span class="tc">21:47:12:08</span><div class="l">PGM</div></div>
+<div class="big"><img src="feeds/cam1-wide.jpg"><div class="l">PVW</div></div>
+<div class="t pvw"><img src="feeds/cam1-wide.jpg"><div class="m"></div><div class="l">CAM 1 WIDE</div></div>
+<div class="t pgm"><img src="feeds/cam2-close.jpg"><div class="m"></div><div class="l">CAM 2 LONG</div></div>
+<div class="t"><img src="feeds/cam5-booth.jpg"><div class="m"></div><div class="l">CAM 3 PIT</div></div>
+<div class="t"><img src="feeds/cam6-imagr.jpg"><div class="m"></div><div class="l">CAM 4 HH</div></div>
+<div class="t"><img src="feeds/cam4-crowd.jpg"><div class="m"></div><div class="l">CAM 5 CROWD</div></div>
+<div class="t"><img src="feeds/cam3-imag.jpg"><div class="l">IMAG L</div></div>
+<div class="t"><div class="bars" style="position:absolute;inset:0"></div><div class="l">VT</div></div>
+<div class="t" style="background:#000"><div class="l">GFX</div></div>
+</div></body></html>

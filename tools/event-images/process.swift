@@ -22,6 +22,9 @@ struct Scene: Codable {
   var sat: Double?; var val: Double?  // thresholds for "lit and coloured"
   var grain: Double?; var vignette: Double?; var contrast: Double?
   var mix: [Double]?                  // black-and-white channel weights [r,g,b], like a colour filter on film
+  var dim: [Region]?                  // lit buttons that should read as idle: darkened...
+  var keep: [Region]?                 // ...except these (the live PGM/PVW crosspoints)
+  var dimAmount: Double?
 }
 
 let args = CommandLine.arguments
@@ -69,6 +72,19 @@ for r in scene.replace ?? [] {
 for r in scene.blur ?? [] {
   let soft = photo.clampedToExtent().applyingGaussianBlur(sigma: r.radius ?? 8).cropped(to: photo.extent)
   let bl = CIFilter.blendWithMask(); bl.inputImage = soft; bl.backgroundImage = photo; bl.maskImage = feathered(rect(r.rect), 2)
+  photo = bl.outputImage!.cropped(to: photo.extent)
+}
+
+// 2b. Idle buttons: darken lit buttons that should be off, keeping the live crosspoints.
+if let dims = scene.dim, !dims.isEmpty {
+  var dm = CIImage(color: .black).cropped(to: photo.extent)
+  for r in dims { dm = CIImage(color: .white).cropped(to: rect(r.rect)).applyingGaussianBlur(sigma: 1.5).cropped(to: photo.extent).composited(over: dm) }
+  for r in scene.keep ?? [] { dm = CIImage(color: .black).cropped(to: rect(r.rect)).applyingGaussianBlur(sigma: 1.5).cropped(to: photo.extent).composited(over: dm) }
+  let a = Float(scene.dimAmount ?? 0.28)
+  let dk = CIFilter.colorMatrix(); dk.inputImage = photo
+  dk.rVector = CIVector(x: CGFloat(a), y: 0, z: 0, w: 0); dk.gVector = CIVector(x: 0, y: CGFloat(a), z: 0, w: 0); dk.bVector = CIVector(x: 0, y: 0, z: CGFloat(a), w: 0)
+  let sat = CIFilter.colorControls(); sat.inputImage = dk.outputImage!; sat.saturation = 0.15
+  let bl = CIFilter.blendWithMask(); bl.inputImage = sat.outputImage!; bl.backgroundImage = photo; bl.maskImage = dm
   photo = bl.outputImage!.cropped(to: photo.extent)
 }
 

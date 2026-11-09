@@ -1,0 +1,24 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+/* LED processor control software (generic dark UI): output map of panels. 1920x1200 MacBook screen. */
+html,body{margin:0;width:1920px;height:1200px;background:#1b1d21;color:#cfd3d8;font:22px -apple-system,Helvetica,Arial;overflow:hidden}
+.menu{height:44px;background:#e9e9ea;color:#111;display:flex;gap:30px;align-items:center;padding:0 22px;font-size:20px}
+.menu b{font-size:22px}
+.side{position:absolute;left:0;top:44px;bottom:0;width:300px;background:#24272c;padding:20px;box-sizing:border-box}
+.side div{padding:12px 10px;border-radius:6px;margin-bottom:6px}.side .on{background:#2f6fd6;color:#fff}
+.main{position:absolute;left:320px;top:70px;right:30px;bottom:30px}
+.head{display:flex;justify-content:space-between;font-size:24px;margin-bottom:16px}
+.ok{color:#5bd16b}
+.map{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;background:#0d0e10;padding:14px;border-radius:8px}
+.map i{display:block;aspect-ratio:1;background:#2b3a52;border:1px solid #3e5679;font:12px/1 Menlo;color:#9fb3cf;padding:4px;box-sizing:border-box}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}
+.stats div{background:#24272c;padding:16px;border-radius:8px}.stats b{display:block;font-size:30px;color:#fff;margin-top:6px}
+</style></head><body>
+<div class="menu"><b></b><b>Processor</b><span>File</span><span>Edit</span><span>View</span><span>Window</span><span>Help</span></div>
+<div class="side"><div>Overview</div><div class="on">Output map</div><div>Colour</div><div>Inputs</div><div>Processors</div><div>Network</div></div>
+<div class="main">
+<div class="head"><span>Output map · STAGE LED · 3456 × 1728</span><span class="ok">● 2 processors online</span></div>
+<div class="map" id="m"></div>
+<div class="stats"><div>Input<b>4K 50p</b></div><div>Brightness<b>1200 nits</b></div><div>Panels<b>72 / 72</b></div><div>Redundancy<b class="ok">Active</b></div></div>
+</div>
+<script>const m=document.getElementById('m');for(let i=1;i<=72;i++){const t=document.createElement('i');t.textContent=i;m.appendChild(t)}</script>
+</body></html>

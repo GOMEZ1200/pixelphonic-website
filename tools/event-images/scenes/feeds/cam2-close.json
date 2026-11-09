@@ -1,0 +1,15 @@
+{
+ "input": "../../../../reference/library/lib86.jpg",
+ "output": "../../screens/feeds/cam2-close.jpg",
+ "width": 960,
+ "crop": [
+  0.255,
+  0.455,
+  0.348,
+  0.67
+ ],
+ "blur": [],
+ "grain": 0.02,
+ "vignette": 0.0,
+ "contrast": 1.05
+}
