@@ -15,7 +15,7 @@ g.beginPath(); g.moveTo(0,0); g.lineTo(W,H); g.moveTo(W,0); g.lineTo(0,H); g.str
 g.strokeStyle='rgba(255,255,255,.9)'; g.beginPath(); g.arc(W/2,H/2,H*0.48,0,7); g.stroke();
 const cr=H*0.22; [[cr,cr],[W-cr,cr],[cr,H-cr],[W-cr,H-cr]].forEach(([x,y])=>{g.beginPath();g.arc(x,y,cr*0.95,0,7);g.stroke();});
 g.strokeStyle='#fff'; g.lineWidth=6; g.strokeRect(3,3,W-6,H-6);
-const fs=H*(H/W<0.3?0.42:0.16); g.font=`800 ${fs}px Helvetica,Arial`; g.textAlign='center'; g.textBaseline='middle';
+const fs=Math.min(H*(H/W<0.3?0.42:0.16), W*0.12); g.font=`800 ${fs}px Helvetica,Arial`; g.textAlign='center'; g.textBaseline='middle';
 g.lineWidth=fs*0.06; g.strokeStyle='rgba(0,0,0,.6)'; const lab=`${W} x ${H}`;
 g.strokeText(lab,W/2,H/2-(H/W<0.3?0:fs*0.35)); g.fillStyle='#ffd21a'; g.fillText(lab,W/2,H/2-(H/W<0.3?0:fs*0.35));
 if(H/W>=0.3){const bw=W*0.42,bh=fs*0.45,bx=W/2-bw/2,by=H/2+fs*0.35;const bars=['#c0c0c0','#c0c000','#00c0c0','#00c000','#c000c0','#c00000','#0000c0'];bars.forEach((b,i)=>{g.fillStyle=b;g.fillRect(bx+i*bw/7,by,bw/7,bh)});}

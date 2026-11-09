@@ -1,0 +1,7 @@
+<html><body style="margin:0"><canvas id=c width=400 height=80></canvas><script>
+const i=new Image();i.onload=()=>{const g=document.getElementById('c').getContext('2d');
+// left half from a clean column left of the text, right half from a clean column right of it, blended
+g.drawImage(i,688,336,4,80,0,0,200,80);g.drawImage(i,1100,336,4,80,200,0,200,80);
+const d=g.getImageData(0,0,400,80);const L=g.getImageData(0,0,1,80).data,Rr=g.getImageData(399,0,1,80).data;
+for(let y=0;y<80;y++)for(let x=0;x<400;x++){const k=(y*400+x)*4,t=x/399;for(let c=0;c<3;c++)d.data[k+c]=L[y*4+c]*(1-t)+Rr[y*4+c]*t;}
+g.putImageData(d,0,0);};i.src='file:///Users/craiggomez/Work/pixelphonic-website/reference/jobs/wide39.jpg';</script></body></html>
