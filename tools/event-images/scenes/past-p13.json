@@ -1,0 +1,45 @@
+{
+ "replace": [
+  {
+   "quad": [
+    [
+     0.256,
+     0.368
+    ],
+    [
+     0.865,
+     0.368
+    ],
+    [
+     0.865,
+     0.5773333333333334
+    ],
+    [
+     0.256,
+     0.5773333333333334
+    ]
+   ],
+   "image": "../screens/grid-wall.png",
+   "soften": 0.9,
+   "keepDark": 0.16
+  }
+ ],
+ "input": "../../../reference/pastjobs/p13.jpg",
+ "output": "../out/past/p13.jpg",
+ "width": 1600,
+ "colour": [
+  {
+   "rect": [
+    0,
+    0,
+    1,
+    1
+   ]
+  }
+ ],
+ "sat": 0.45,
+ "val": 0.45,
+ "grain": 0.04,
+ "vignette": 0.4,
+ "contrast": 1.08
+}
