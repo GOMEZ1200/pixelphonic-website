@@ -42,6 +42,13 @@
     words.filter(w => /2010/.test(w.textContent)).forEach(w => w.classList.add('hl'));
   }
 
+  // Service scenes: split each description into words that light up once the photo has settled
+  const scenes = [...document.querySelectorAll('.scene')].map(el => {
+    const p = el.querySelector('.words');
+    p.innerHTML = p.textContent.trim().split(/\s+/).map(w => `<span>${w}</span>`).join(' ');
+    return { el, words: [...p.querySelectorAll('span')] };
+  });
+
   const topbar = document.querySelector('.topbar');
   const stage = document.querySelector('.expand');
   const parallax = [...document.querySelectorAll('[data-parallax]')];
@@ -63,6 +70,16 @@
       const p = progress(stage), e = 1 - Math.pow(1 - clamp(p / 0.7), 3);
       stage.style.setProperty('--grow', e.toFixed(4));
       stage.style.setProperty('--caption', clamp((p - 0.55) / 0.3).toFixed(3));
+    }
+    for (const { el, words: ws } of scenes) {
+      const r = el.getBoundingClientRect();
+      if (r.bottom < -innerHeight || r.top > innerHeight * 1.5) continue;
+      const p = progress(el), ease = x => 1 - Math.pow(1 - x, 3);
+      el.style.setProperty('--big', (1 - clamp((p - 0.04) / 0.16)).toFixed(3));
+      el.style.setProperty('--e', ease(clamp((p - 0.12) / 0.33)).toFixed(4));
+      el.style.setProperty('--t', ease(clamp((p - 0.38) / 0.17)).toFixed(3));
+      const lit = Math.round(clamp((p - 0.45) / 0.4) * ws.length);
+      ws.forEach((w, i) => w.classList.toggle('lit', i < lit));
     }
     for (const el of parallax) {
       const r = el.getBoundingClientRect();
