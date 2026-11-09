@@ -9,7 +9,7 @@
   function wall(canvas) {
     const ctx = canvas.getContext('2d');
     const tint = canvas.dataset.tint || 'multi', shape = canvas.dataset.shape || 'wall';
-    const PIXEL = Number(canvas.dataset.pitch || 7), PANEL = 12;
+    const PIXEL = Number(canvas.dataset.pitch || 7), PANEL = Number(canvas.dataset.panel || 12);
     let w = 0, h = 0, cols = 0, rows = 0, seed = [], mask = [], visible = true, running = false, moduleGain = [], moduleCols = 1, sprite = null;
 
     // Which pixels are lit LED (1) and which are the dark room (0), for each layout.
@@ -64,33 +64,45 @@
       g.beginPath(); g.roundRect ? g.roundRect(m - core / 2, m - core / 2, core, core, core * 0.3) : g.rect(m - core / 2, m - core / 2, core, core); g.fill();
       return { canvas: c, size };
     }
+    // Fine-pitch LED wall: brightness worked out once per LED into a small buffer, scaled up without
+    // smoothing (one block per LED), then a mask cuts each block down to a small emitter with a dark gap.
+    // A soft second pass adds the glow real LEDs have. Cheap enough for 1.5–4 px pitch at 30 fps.
+    let buf = null, bctx = null, img = null, gapMask = null;
+    function setupReal() {
+      buf = document.createElement('canvas'); buf.width = cols; buf.height = rows; bctx = buf.getContext('2d');
+      img = bctx.createImageData(cols, rows);
+      const m = document.createElement('canvas'), dpr = Math.min(devicePixelRatio || 1, 2), p = Math.max(2, Math.round(PIXEL * dpr));
+      m.width = m.height = p; const g = m.getContext('2d');
+      g.fillStyle = '#040404'; g.fillRect(0, 0, p, p);
+      const core = Math.max(1, Math.round(p * 0.55)), o = Math.floor((p - core) / 2);
+      g.clearRect(o, o, core, core);
+      gapMask = ctx.createPattern(m, "repeat"); gapMask.setTransform(new DOMMatrix().scale(1 / dpr));
+    }
     function drawReal(t) {
-      // Black module faces with a faint seam between modules.
-      ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
-      ctx.fillStyle = '#030303'; ctx.fillRect(0, 0, w, h);
-      const step = PIXEL * PANEL;
-      for (let my = 0; my * step < h; my++) for (let mx = 0; mx * step < w; mx++) {
-        const gain = moduleGain[my * moduleCols + mx] || 1;
-        ctx.fillStyle = `rgb(${Math.round(6 * gain)},${Math.round(6 * gain)},${Math.round(7 * gain)})`;
-        ctx.fillRect(mx * step + 1, my * step + 1, step - 2, step - 2);
-      }
-      // Unlit LED packages: tiny dark squares, visible like on a switched-off wall.
-      ctx.fillStyle = '#121212';
-      for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) ctx.fillRect(c * PIXEL + PIXEL / 2 - 1.3, r * PIXEL + PIXEL / 2 - 1.3, 2.6, 2.6);
-      // Lit LEDs, added light on light so bright areas bloom.
-      ctx.globalCompositeOperation = 'lighter';
-      const half = sprite.size / 2;
+      if (!buf || buf.width !== cols || buf.height !== rows) setupReal();
+      const d = img.data;
       for (let r = 0; r < rows; r++) {
-        const y = r * PIXEL + PIXEL / 2;
+        const y = r * PIXEL + PIXEL / 2, mr = Math.floor(r / PANEL) * moduleCols;
         for (let c = 0; c < cols; c++) {
-          const x = c * PIXEL + PIXEL / 2, s = seed[r * cols + c];
-          const gain = moduleGain[Math.floor(r / PANEL) * moduleCols + Math.floor(c / PANEL)] || 1;
-          let v = Math.pow(light(x, y, t), 3.2) * 0.72 * gain * (0.94 + s * 0.06);
-          if (v < 0.03) continue;
-          ctx.globalAlpha = Math.min(1, v);
-          ctx.drawImage(sprite.canvas, x - half, y - half, sprite.size, sprite.size);
+          const i = r * cols + c, x = c * PIXEL + PIXEL / 2;
+          const gain = moduleGain[mr + Math.floor(c / PANEL)] || 1;
+          const v = Math.min(1, Math.pow(light(x, y, t), 3.2) * 0.85 * gain * (0.94 + seed[i] * 0.06));
+          const g = (v * 255) | 0, k = i * 4;
+          d[k] = g; d[k + 1] = g; d[k + 2] = g; d[k + 3] = 255;
         }
       }
+      bctx.putImageData(img, 0, 0);
+      ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(buf, 0, 0, cols * PIXEL, rows * PIXEL);
+      ctx.fillStyle = gapMask; ctx.fillRect(0, 0, w, h);
+      // Module seams every PANEL LEDs.
+      ctx.fillStyle = 'rgba(0,0,0,0.55)'; const step = PIXEL * PANEL;
+      for (let x = step; x < w; x += step) ctx.fillRect(x - 0.5, 0, 1, h);
+      for (let y = step; y < h; y += step) ctx.fillRect(0, y - 0.5, w, 1);
+      // Glow.
+      ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.22; ctx.imageSmoothingEnabled = true;
+      ctx.drawImage(buf, 0, 0, cols * PIXEL, rows * PIXEL);
       ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
     }
     function draw(time) {
