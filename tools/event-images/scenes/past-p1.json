@@ -1,0 +1,20 @@
+{
+ "input": "../../../reference/pastjobs/p1.jpg",
+ "output": "../out/past/p1.jpg",
+ "width": 1600,
+ "colour": [
+  {
+   "rect": [
+    0,
+    0,
+    1,
+    1
+   ]
+  }
+ ],
+ "sat": 0.45,
+ "val": 0.45,
+ "grain": 0.04,
+ "vignette": 0.4,
+ "contrast": 1.08
+}
