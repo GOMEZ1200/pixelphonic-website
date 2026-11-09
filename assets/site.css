@@ -224,6 +224,7 @@ footer nav { display: flex; gap: 22px; }
 .expand .frame { --night: 0; }
 .expand .frame img { position: absolute; inset: 0; }
 .expand .frame img.night { opacity: var(--night); }
+.expand .frame img { filter: brightness(calc(1 - .35 * var(--caption))); }
 @media (prefers-reduced-motion: reduce) { .expand .frame img.night { opacity: 0; } }
 
 /* Tape colour accents */
