@@ -1,0 +1,29 @@
+{
+  "input": "../../../../reference/jobs/job02.jpg",
+  "output": "../../out/jobs/job02.jpg",
+  "width": 2000,
+  "blur": [],
+  "colour": [
+    {
+      "rect": [
+        0.47,
+        0.77,
+        0.84,
+        0.86
+      ]
+    },
+    {
+      "rect": [
+        0.0,
+        0.53,
+        0.21,
+        0.72
+      ]
+    }
+  ],
+  "sat": 0.5,
+  "val": 0.62,
+  "grain": 0.045,
+  "vignette": 0.5,
+  "contrast": 1.1
+}
