@@ -1,0 +1,12 @@
+/* Invented event: Harbour Lights Foundation Charity Gala. No real client. */
+.slide{position:relative;overflow:hidden;background:#0f5f55;color:#fff;font-family:"Helvetica Neue",Arial,sans-serif}
+.ppt{background:linear-gradient(135deg,#17a589,#0e6b63);display:grid;place-items:center}
+.ppt .mark{display:flex;flex-direction:column;align-items:center;gap:.06em;font-weight:800;letter-spacing:.12em}
+.ppt .mark svg{width:1.4em;height:1.1em}
+.hold{background:#1b2230;display:grid;place-items:center;text-align:center}
+.hold .script{font-family:"Snell Roundhand","Brush Script MT",cursive;font-size:1em;line-height:1}
+.hold .stars{letter-spacing:.3em;font-size:.35em}
+.hold .sub{font-size:.18em;letter-spacing:.3em;margin-top:.4em}
+.auction{background:#f4f4f4;color:#222;padding:6%;font-size:.12em;line-height:1.5}
+.wheel{background:radial-gradient(circle at 50% 55%,#3a0d0d,#120404);display:grid;place-items:center}
+.wheel i{display:block;width:62%;aspect-ratio:1;border-radius:50%;background:conic-gradient(#e74c3c 0 30deg,#f39c12 0 60deg,#f1c40f 0 90deg,#2ecc71 0 120deg,#1abc9c 0 150deg,#3498db 0 180deg,#9b59b6 0 210deg,#e91e63 0 240deg,#ff5722 0 270deg,#8bc34a 0 300deg,#00bcd4 0 330deg,#673ab7 0 360deg);box-shadow:0 0 0 .4em #fff3}

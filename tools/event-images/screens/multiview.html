@@ -1,0 +1,32 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="slides.css"><style>
+/* Roland V-160HD style multiview, 1920x1080. Parameters via URL: ?pgm=PPT&pvw=HOLD */
+html,body{margin:0;width:1920px;height:1080px;background:#000;overflow:hidden}
+.mv{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:560px 260px 260px;width:1920px;height:1080px;gap:0}
+.big{grid-column:span 2;position:relative}
+.t{position:relative;border:2px solid #333;box-sizing:border-box;overflow:hidden}
+.t .slide,.big .slide{position:absolute;inset:0}
+.lab{position:absolute;left:0;right:0;bottom:6px;text-align:center;font:700 34px/1 "Menlo","Monaco",monospace;color:#fff;letter-spacing:1px;
+  text-shadow:-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000,2px 2px 0 #000;text-transform:uppercase;z-index:3}
+.big .lab{font-size:40px;bottom:10px}
+.pgm{box-shadow:inset 0 0 0 6px #e0201b}
+.pvw{box-shadow:inset 0 0 0 6px #2ad04a}
+.pgm .slide,.pvw .slide{inset:6px}
+.wheel i{width:auto!important;height:78%}
+.meter{position:absolute;left:4px;top:30%;width:7px;height:45%;background:linear-gradient(#0000 0 40%,#3c3 40%);z-index:3}
+.ppt .mark{font-size:84px}.t .ppt .mark{font-size:40px}
+.hold .script{font-size:110px}.t .hold .script{font-size:52px}.hold .stars{font-size:36px}.t .hold .stars{font-size:18px}.hold .sub{font-size:22px}.t .hold .sub{font-size:11px}
+.black{background:#000}
+.timer{background:#000}.timer img{width:100%;height:100%;object-fit:cover}
+</style></head><body>
+<div class="mv">
+  <div class="big"><div class="slide ppt"><div class="mark"><svg viewBox="0 0 40 30"><path d="M4 26 L20 4 L36 26" fill="none" stroke="#fff" stroke-width="5"/><circle cx="20" cy="8" r="3" fill="#fff"/></svg>HARBOUR<br>LIGHTS</div></div><div class="lab">PGM</div></div>
+  <div class="big"><div class="slide hold"><div><div class="stars">★ ★ ★</div><div class="script">Harbour Lights</div><div class="sub">FOUNDATION</div></div></div><div class="lab">PVW</div></div>
+  <div class="t"><div class="slide black"></div><div class="lab">VT</div></div>
+  <div class="t pgm"><div class="slide ppt"><div class="mark"><svg viewBox="0 0 40 30"><path d="M4 26 L20 4 L36 26" fill="none" stroke="#fff" stroke-width="5"/><circle cx="20" cy="8" r="3" fill="#fff"/></svg>HARBOUR<br>LIGHTS</div></div><div class="meter"></div><div class="lab">PPT</div></div>
+  <div class="t"><div class="slide wheel"><i></i></div><div class="meter"></div><div class="lab">WHEEL</div></div>
+  <div class="t pvw"><div class="slide hold"><div><div class="stars">★ ★ ★</div><div class="script">Harbour Lights</div><div class="sub">FOUNDATION</div></div></div><div class="lab">HOLD</div></div>
+  <div class="t"><div class="slide auction" style="font-size:24px"><b>Live Auction — Lot 4</b><br>Signed match ball<br>Current bid: £1,250<br>Table 12</div><div class="lab">AUCTION</div></div>
+  <div class="t"><div class="slide wheel" style="background:#111"><i style="width:48%"></i></div><div class="lab">SPIN</div></div>
+  <div class="t"><div class="slide timer"><img src="stagetimer-output.png" alt=""></div><div class="lab">TIMER</div></div>
+  <div class="t"><div class="slide black"></div></div>
+</div></body></html>
