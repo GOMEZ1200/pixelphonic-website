@@ -10,6 +10,8 @@ import CoreImage
 import CoreImage.CIFilterBuiltins
 
 struct Replace: Codable { var quad: [[Double]]; var image: String; var brightness: Double?; var soften: Double?
+  var feather: Double?    // mask edge softness in pixels (default 0.9)
+  var overlay: Bool?      // lay the content over the photo using its own transparency (print on fabric, signage)
   var keepDark: Double?   // keep dark things in front of the screen (stands, heads): only replace pixels brighter than this
 }
 struct Region: Codable { var rect: [Double]; var radius: Double? }
@@ -25,6 +27,7 @@ struct Scene: Codable {
   var dim: [Region]?                  // lit buttons that should read as idle: darkened...
   var keep: [Region]?                 // ...except these (the live PGM/PVW crosspoints)
   var dimAmount: Double?
+  var clean: [Region]?                // remove print from a plain surface: each row is rebuilt from the clean pixels either side
 }
 
 let args = CommandLine.arguments
@@ -44,6 +47,27 @@ func feathered(_ r: CGRect, _ f: CGFloat) -> CIImage {
     .composited(over: CIImage(color: .black).cropped(to: photo.extent))
 }
 
+// 0. Clean plain surfaces (a fabric header with a client name): every row inside the rect is
+//    redrawn as a smooth blend between the untouched pixels just left and right of it.
+if let cleans = scene.clean, !cleans.isEmpty {
+  let cg0 = ctx.createCGImage(photo, from: photo.extent)!
+  let w = cg0.width, h = cg0.height
+  var buf = [UInt8](repeating: 0, count: w * h * 4)
+  let cs = CGColorSpace(name: CGColorSpace.sRGB)!
+  let bctx = CGContext(data: &buf, width: w, height: h, bitsPerComponent: 8, bytesPerRow: w * 4, space: cs, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
+  bctx.draw(cg0, in: CGRect(x: 0, y: 0, width: w, height: h))
+  for c in cleans {
+    let x0 = Int(c.rect[0] * Double(w)), x1 = Int(c.rect[2] * Double(w)), y0 = Int(c.rect[1] * Double(h)), y1 = Int(c.rect[3] * Double(h))
+    for y in y0..<y1 {
+      func avg(_ xs: ClosedRange<Int>, _ ch: Int) -> Double { Double(xs.reduce(0) { $0 + Int(buf[(y * w + $1) * 4 + ch]) }) / Double(xs.count) }
+      let L = (0..<3).map { avg((x0 - 4)...(x0 - 1), $0) }, R = (0..<3).map { avg((x1)...(x1 + 3), $0) }
+      for x in x0..<x1 { let t = Double(x - x0) / Double(max(1, x1 - x0 - 1)); for ch in 0..<3 {
+        let n = Double.random(in: -1.5...1.5); buf[(y * w + x) * 4 + ch] = UInt8(max(0, min(255, L[ch] * (1 - t) + R[ch] * t + n))) } }
+    }
+  }
+  photo = CIImage(cgImage: bctx.makeImage()!)
+}
+
 // 1. Screens: map rendered content onto each screen with a perspective warp, matched to the photo.
 for r in scene.replace ?? [] {
   var content = CIImage(contentsOf: path(r.image))!
@@ -52,18 +76,19 @@ for r in scene.replace ?? [] {
   p.topLeft = pt(r.quad[0]); p.topRight = pt(r.quad[1]); p.bottomRight = pt(r.quad[2]); p.bottomLeft = pt(r.quad[3])
   content = p.outputImage!
   // Screens photographed by a phone are a little soft and lifted; match that.
-  content = content.applyingGaussianBlur(sigma: r.soften ?? 0.8).cropped(to: content.extent)
+  content = content.clampedToExtent().applyingGaussianBlur(sigma: r.soften ?? 0.8).cropped(to: content.extent)
   let b = CIFilter.colorControls(); b.inputImage = content; b.brightness = Float(r.brightness ?? 0) ; b.contrast = 0.92; content = b.outputImage!
   // Mask: the quad itself, edges feathered by a pixel so it sits inside the bezel.
   let m = CIFilter.perspectiveTransform()
   m.inputImage = CIImage(color: .white).cropped(to: CGRect(x: 0, y: 0, width: 100, height: 100))
   m.topLeft = pt(r.quad[0]); m.topRight = pt(r.quad[1]); m.bottomRight = pt(r.quad[2]); m.bottomLeft = pt(r.quad[3])
-  var mask = m.outputImage!.applyingGaussianBlur(sigma: 0.9).cropped(to: photo.extent).composited(over: CIImage(color: .black).cropped(to: photo.extent))
+  var mask = m.outputImage!.applyingGaussianBlur(sigma: r.feather ?? 0.9).cropped(to: photo.extent).composited(over: CIImage(color: .black).cropped(to: photo.extent))
   if let t = r.keepDark {
     let k = CIColorKernel(source: "kernel vec4 bright(__sample c, float t) { float l = dot(c.rgb, vec3(0.3,0.59,0.11)); float k = smoothstep(t, t + 0.12, l); return vec4(k,k,k,1.0); }")!
     let bright = k.apply(extent: photo.extent, arguments: [photo, Float(t)])!.applyingGaussianBlur(sigma: 0.7).cropped(to: photo.extent)
     let mul = CIFilter.multiplyCompositing(); mul.inputImage = bright; mul.backgroundImage = mask; mask = mul.outputImage!.cropped(to: photo.extent)
   }
+  if r.overlay == true { photo = content.composited(over: photo).cropped(to: photo.extent); continue }
   let bl = CIFilter.blendWithMask(); bl.inputImage = content; bl.backgroundImage = photo; bl.maskImage = mask
   photo = bl.outputImage!.cropped(to: photo.extent)
 }

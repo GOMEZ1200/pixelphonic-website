@@ -1,0 +1,44 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+html,body{margin:0;background:#0b0b0b;overflow:hidden;font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif}
+</style></head><body><canvas id="c"></canvas><script>
+// Pixel Phonic test card (Craig's design): grid with pixel labels, corner circles with resolution blocks,
+// big centre circle, edge arrows, centre panel with logo, info line, colour bars, grey steps, ramp, PLUGE.
+const q=new URLSearchParams(location.search),W=+q.get('w')||3840,H=+q.get('h')||2160;
+const c=document.getElementById('c');c.width=W;c.height=H;const g=c.getContext('2d');const u=Math.min(W/3840,H/2160);
+g.fillStyle='#0b0b0b';g.fillRect(0,0,W,H);
+const step=120*u*(W/3840>H/2160?H/2160/u:1);const gs=Math.round(Math.min(W,H)/18);
+g.strokeStyle='#2a2a2a';g.lineWidth=Math.max(1,2*u);
+for(let x=0;x<=W;x+=gs){g.beginPath();g.moveTo(x+.5,0);g.lineTo(x+.5,H);g.stroke()}
+for(let y=0;y<=H;y+=gs){g.beginPath();g.moveTo(0,y+.5);g.lineTo(W,y+.5);g.stroke()}
+g.fillStyle='#9a9a9a';g.font=`${Math.round(28*u)}px Inter,Helvetica`;
+for(let x=480;x<W;x+=480){g.fillText(x,x+12*u*0,40*u+40*u)}
+for(let y=480;y<H;y+=480){g.fillText(y,70*u,y)}
+const R=Math.min(W,H);
+g.strokeStyle='#fff';g.lineWidth=Math.max(2,4*u);
+g.beginPath();g.arc(W/2,H/2,R*0.5-4,0,7);g.stroke();
+const cr=R*0.107,co=R*0.124;
+for(const [x,y] of [[co+cr*0.0,co],[W-co,co],[co,H-co],[W-co,H-co]]){const X=x===co+cr*0?co+cr*0.35:x,Y=y;
+ g.strokeStyle='#fff';g.beginPath();g.arc(X,Y,cr,0,7);g.stroke();
+ const b=cr*0.45,gp=cr*0.05;g.fillStyle='#7a7a7a';
+ g.fillRect(X-b-gp/2,Y-b-gp/2,b,b);g.fillRect(X+gp/2,Y-b-gp/2,b,b);g.fillRect(X+gp/2,Y+gp/2,b,b);
+ for(let i=0;i<b;i+=Math.max(2,4*u)){g.fillRect(X-b-gp/2+i,Y+gp/2,Math.max(1,2*u),b)}}
+g.fillStyle='#fff';const t=R*0.03;
+g.beginPath();g.moveTo(W/2-t,t*1.1);g.lineTo(W/2+t,t*1.1);g.lineTo(W/2,0);g.fill();
+g.beginPath();g.moveTo(W/2-t,H-t*1.1);g.lineTo(W/2+t,H-t*1.1);g.lineTo(W/2,H);g.fill();
+g.beginPath();g.moveTo(t*1.1,H/2-t);g.lineTo(t*1.1,H/2+t);g.lineTo(0,H/2);g.fill();
+g.beginPath();g.moveTo(W-t*1.1,H/2-t);g.lineTo(W-t*1.1,H/2+t);g.lineTo(W,H/2);g.fill();
+// centre panel
+const pw=W<H?W*0.86:Math.min(W*0.5,R*0.9*1.78*0.62),ph=pw*0.625,px=W/2-pw/2,py=H/2-ph/2;
+g.fillStyle='#0b0b0b';g.fillRect(px,py,pw,ph);g.strokeStyle='#fff';g.lineWidth=Math.max(1,2*u);g.strokeRect(px,py,pw,ph);
+const logo=new Image();logo.onload=()=>{const lw=pw*0.69,lh=lw*logo.height/logo.width;g.drawImage(logo,W/2-lw/2,py+ph*0.05,lw,lh);
+const iy=py+ph*0.45;g.fillStyle='#fff';g.font=`600 ${Math.round(ph*0.045)}px Inter,Helvetica`;g.textAlign='left';g.fillText(`${W} × ${H}`+(W===3840&&H===2160?'  ·  UHD 4K  ·  16:9':''),px+pw*0.015,iy);
+g.textAlign='right';g.fillStyle='#ddd';g.fillText('pixelphonic.co.uk',px+pw*0.985,iy);
+const by=py+ph*0.5,bh=ph*0.25,bars=['#fff','#ff0','#0ff','#0f0','#f0f','#f00','#00f','#000'];bars.forEach((b,i)=>{g.fillStyle=b;g.fillRect(px+i*pw/8,by,pw/8+1,bh)});
+const sy=by+bh,sh=ph*0.1;for(let i=0;i<16;i++){const v=Math.round(i*255/15);g.fillStyle=`rgb(${v},${v},${v})`;g.fillRect(px+i*pw/16,sy,pw/16+1,sh)}
+const ry=sy+sh,rh=ph*0.075,gr=g.createLinearGradient(px,0,px+pw,0);gr.addColorStop(0,'#000');gr.addColorStop(1,'#fff');g.fillStyle=gr;g.fillRect(px+pw*0.01,ry,pw*0.98,rh);
+const ly=ry+rh,lh2=py+ph-ly;[0,4,8,12,16].forEach((v,i)=>{g.fillStyle=`rgb(${v},${v},${v})`;g.fillRect(px+i*pw/16,ly,pw/16+1,lh2)});
+g.fillStyle='#000';g.fillRect(px+5*pw/16,ly,pw*6/16,lh2);g.fillStyle='#aaa';g.textAlign='center';g.font=`${Math.round(ph*0.022)}px Inter,Helvetica`;g.fillText('BLACK 0-16  ·  WHITE 235-255',W/2,ly+lh2*0.6);
+[235,240,245,250,255].forEach((v,i)=>{g.fillStyle=`rgb(${v},${v},${v})`;g.fillRect(px+(11+i)*pw/16,ly,pw/16+1,lh2)});
+g.strokeStyle='#666';g.beginPath();g.moveTo(W/2-ph*0.06,iy-ph*0.01);g.lineTo(W/2+ph*0.06,iy-ph*0.01);g.moveTo(W/2,iy-ph*0.06);g.lineTo(W/2,iy+ph*0.04);g.stroke();
+document.title='done'};logo.src='pp-logo.png';
+</script></body></html>

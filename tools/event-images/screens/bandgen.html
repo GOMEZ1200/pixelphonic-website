@@ -1,7 +1,12 @@
-<html><body style="margin:0"><canvas id=c width=400 height=80></canvas><script>
-const i=new Image();i.onload=()=>{const g=document.getElementById('c').getContext('2d');
-// left half from a clean column left of the text, right half from a clean column right of it, blended
-g.drawImage(i,688,336,4,80,0,0,200,80);g.drawImage(i,1100,336,4,80,200,0,200,80);
-const d=g.getImageData(0,0,400,80);const L=g.getImageData(0,0,1,80).data,Rr=g.getImageData(399,0,1,80).data;
-for(let y=0;y<80;y++)for(let x=0;x<400;x++){const k=(y*400+x)*4,t=x/399;for(let c=0;c<3;c++)d.data[k+c]=L[y*4+c]*(1-t)+Rr[y*4+c]*t;}
-g.putImageData(d,0,0);};i.src='file:///Users/craiggomez/Work/pixelphonic-website/reference/jobs/wide39.jpg';</script></body></html>
+<html><body style="margin:0"><canvas id=c width=382 height=60></canvas><script>
+// Clean plate for the header text area: each row blends from the clean column left of the text to the clean column right of it.
+const X0=700,X1=1082,Y0=344,H=60;
+const i=new Image();i.onload=()=>{const t=document.createElement('canvas');t.width=2000;t.height=1125;const tg=t.getContext('2d');tg.drawImage(i,0,0);
+const g=document.getElementById('c').getContext('2d');const d=g.createImageData(X1-X0,H);
+const L=tg.getImageData(X0-3,Y0,3,H).data,R=tg.getImageData(X1,Y0,3,H).data;
+for(let y=0;y<H;y++){const l=[0,1,2].map(c=>(L[(y*3)*4+c]+L[(y*3+1)*4+c]+L[(y*3+2)*4+c])/3),r=[0,1,2].map(c=>(R[(y*3)*4+c]+R[(y*3+1)*4+c]+R[(y*3+2)*4+c])/3);
+for(let x=0;x<X1-X0;x++){const k=(y*(X1-X0)+x)*4,u=x/(X1-X0-1);for(let c=0;c<3;c++)d.data[k+c]=l[c]*(1-u)+r[c]*u+(Math.random()-.5)*3;d.data[k+3]=255;}}
+g.putImageData(d,0,0);
+// Pixel Phonic logo printed on the fabric (dark ink)
+const lg=new Image();lg.onload=()=>{g.globalAlpha=.88;g.filter='invert(1)';const h=38,w=lg.width*h/lg.height;g.drawImage(lg,(X1-X0-w)/2,(H-h)/2,w,h);};lg.src='pp-logo.png';};
+i.src='file:///Users/craiggomez/Work/pixelphonic-website/reference/jobs/wide39.jpg';</script></body></html>

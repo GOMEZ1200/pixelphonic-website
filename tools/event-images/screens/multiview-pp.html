@@ -1,0 +1,32 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="slides.css"><style>
+/* Roland V-160HD style multiview, 1920x1080. Parameters via URL: ?pgm=PPT&pvw=HOLD */
+html,body{margin:0;width:1920px;height:1080px;background:#000;overflow:hidden}
+.mv{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:560px 260px 260px;width:1920px;height:1080px;gap:0}
+.big{grid-column:span 2;position:relative}
+.t{position:relative;border:2px solid #333;box-sizing:border-box;overflow:hidden}
+.t .slide,.big .slide{position:absolute;inset:0}
+.lab{position:absolute;left:0;right:0;bottom:6px;text-align:center;font:700 34px/1 "Menlo","Monaco",monospace;color:#fff;letter-spacing:1px;
+  text-shadow:-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000,2px 2px 0 #000;text-transform:uppercase;z-index:3}
+.big .lab{font-size:40px;bottom:10px}
+.pgm{box-shadow:inset 0 0 0 6px #e0201b}
+.pvw{box-shadow:inset 0 0 0 6px #2ad04a}
+.pgm .slide,.pvw .slide{inset:6px}
+.wheel i{width:auto!important;height:78%}
+.meter{position:absolute;left:4px;top:30%;width:7px;height:45%;background:linear-gradient(#0000 0 40%,#3c3 40%);z-index:3}
+.ppt .mark{font-size:84px}.t .ppt .mark{font-size:40px}
+.hold .script{font-size:110px}.t .hold .script{font-size:52px}.hold .stars{font-size:36px}.t .hold .stars{font-size:18px}.hold .sub{font-size:22px}.t .hold .sub{font-size:11px}
+.black{background:#000}
+.timer{background:#000}.timer img{width:100%;height:100%;object-fit:cover}
+</style><style>.ppt{background:linear-gradient(135deg,#151515,#050505)}.pplogo{width:62%;height:auto;display:block;margin:0 auto}.hold .pplogo{width:55%;opacity:.9}.hold .sub{margin-top:.6em}</style></head><body>
+<div class="mv">
+  <div class="big"><div class="slide" style="background:url(testcard-3840x2160.png) center/100% 100%"></div><div class="lab">PGM</div></div>
+  <div class="big"><div class="slide hold"><div><img class="pplogo" src="pp-logo.png" alt=""><div class="sub">LIVE EVENTS</div></div></div><div class="lab">PVW</div></div>
+  <div class="t"><div class="slide" style="background:url(cam1.png) center/cover"></div><div class="lab">CAM 1</div></div>
+  <div class="t pgm"><div class="slide ppt"><div class="mark"><img class="pplogo" src="pp-logo.png" alt=""></div></div><div class="meter"></div><div class="lab">PPT</div></div>
+  <div class="t"><div class="slide" style="background:url(cam2.png) center/cover"></div><div class="meter"></div><div class="lab">CAM 2</div></div>
+  <div class="t pvw"><div class="slide hold"><div><img class="pplogo" src="pp-logo.png" alt=""><div class="sub">LIVE EVENTS</div></div></div><div class="lab">HOLD</div></div>
+  <div class="t"><div class="slide" style="background:url(testcard-3840x2160.png) center/100% 100%"></div><div class="lab">BARS</div></div>
+  <div class="t"><div class="slide" style="background:url(presenter-pp.png) center/cover"></div><div class="lab">LAPTOP 2</div></div>
+  <div class="t"><div class="slide timer"><img src="stagetimer-output.png" alt=""></div><div class="lab">TIMER</div></div>
+  <div class="t"><div class="slide" style="background:url(cam1.png) 30% 40%/170%"></div><div class="lab">CAM 3</div></div>
+</div></body></html>
