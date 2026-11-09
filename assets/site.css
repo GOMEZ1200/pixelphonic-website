@@ -221,6 +221,11 @@ footer nav { display: flex; gap: 22px; }
 @media (max-width: 700px) { .expand .frame { width: calc(84vw + 16vw * var(--grow)); height: calc(46vh + 54vh * var(--grow)); } }
 @media (prefers-reduced-motion: reduce) { .expand { height: auto; } .expand .sticky { position: relative; } .expand .frame { width: 100%; height: 100%; border-radius: 0; } .expand .caption { opacity: 1; transform: none; } }
 
+.expand .frame { --night: 0; }
+.expand .frame img { position: absolute; inset: 0; }
+.expand .frame img.night { opacity: var(--night); }
+@media (prefers-reduced-motion: reduce) { .expand .frame img.night { opacity: 0; } }
+
 /* Tape colour accents */
 .tape-orange { --tape: var(--t-orange); } .tape-pink { --tape: var(--t-pink); } .tape-yellow { --tape: var(--t-yellow); } .tape-blue { --tape: var(--t-blue); } .tape-green { --tape: var(--t-green); }
 .hl { color: var(--tape); -webkit-text-fill-color: var(--tape); background: none; text-shadow: 0 0 30px color-mix(in srgb, var(--tape) 35%, transparent); }

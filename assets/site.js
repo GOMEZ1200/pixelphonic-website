@@ -70,6 +70,7 @@
       const p = progress(stage), e = 1 - Math.pow(1 - clamp(p / 0.7), 3);
       stage.style.setProperty('--grow', e.toFixed(4));
       stage.style.setProperty('--caption', clamp((p - 0.55) / 0.3).toFixed(3));
+      stage.querySelector('.frame').style.setProperty('--night', clamp((p - 0.3) / 0.35).toFixed(3));
     }
     for (const { el, words: ws } of scenes) {
       const r = el.getBoundingClientRect();
