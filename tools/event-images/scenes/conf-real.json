@@ -12,6 +12,31 @@
     ],
     [
      0.361,
+     0.3862
+    ],
+    [
+     0.215,
+     0.3862
+    ]
+   ],
+   "image": "../screens/backdrop-top.png",
+   "soften": 0.9,
+   "brightness": -0.02,
+   "emit": 0.8,
+   "glass": 0
+  },
+  {
+   "quad": [
+    [
+     0.215,
+     0.385
+    ],
+    [
+     0.361,
+     0.385
+    ],
+    [
+     0.361,
      0.412
     ],
     [
@@ -19,10 +44,12 @@
      0.412
     ]
    ],
-   "image": "../screens/backdrop-pp.png",
+   "image": "../screens/backdrop-bot.png",
    "soften": 0.9,
-   "brightness": -0.12,
-   "keepDark": 0.07
+   "brightness": -0.02,
+   "keepDark": 0.07,
+   "emit": 0.8,
+   "glass": 0
   },
   {
    "quad": [
@@ -44,7 +71,8 @@
     ]
    ],
    "image": "../screens/testcard-3840x2160.png",
-   "soften": 1.0
+   "soften": 1.0,
+   "emit": 1.0
   },
   {
    "quad": [
@@ -66,7 +94,8 @@
     ]
    ],
    "image": "../screens/testcard-3840x2160.png",
-   "soften": 1.0
+   "soften": 1.0,
+   "emit": 1.0
   },
   {
    "quad": [
@@ -88,7 +117,8 @@
     ]
    ],
    "image": "../screens/presenter-pp.png",
-   "soften": 0.8
+   "soften": 0.8,
+   "emit": 1.0
   },
   {
    "quad": [
@@ -110,7 +140,8 @@
     ]
    ],
    "image": "../screens/multiview-pp.png",
-   "soften": 0.7
+   "soften": 0.7,
+   "emit": 1.0
   },
   {
    "quad": [
@@ -132,7 +163,8 @@
     ]
    ],
    "image": "../screens/presenter-pp.png",
-   "soften": 0.8
+   "soften": 0.8,
+   "emit": 1.0
   },
   {
    "quad": [
@@ -156,7 +188,8 @@
    "image": "../screens/testcard-flip.png",
    "keepDark": 0.2,
    "soften": 1.6,
-   "brightness": -0.12
+   "brightness": -0.12,
+   "emit": 0.5
   },
   {
    "quad": [
@@ -178,7 +211,8 @@
     ]
    ],
    "image": "../screens/cam1.png",
-   "soften": 0.8
+   "soften": 0.8,
+   "emit": 1.0
   },
   {
    "quad": [
@@ -200,7 +234,8 @@
     ]
    ],
    "image": "../screens/cam1.png",
-   "soften": 0.8
+   "soften": 0.8,
+   "emit": 1.0
   }
  ],
  "blur": [],

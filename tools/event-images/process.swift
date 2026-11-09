@@ -11,6 +11,8 @@ import CoreImage.CIFilterBuiltins
 
 struct Replace: Codable { var quad: [[Double]]; var image: String; var brightness: Double?; var soften: Double?
   var feather: Double?    // mask edge softness in pixels (default 0.9)
+  var glass: Double?      // how much room glare shows on the screen surface (default 0.15)
+  var emit: Double?       // a lit display: brighter than the room, a little of the original glass/reflections kept, light spilling round the edges
   var overlay: Bool?      // lay the content over the photo using its own transparency (print on fabric, signage)
   var keepDark: Double?   // keep dark things in front of the screen (stands, heads): only replace pixels brighter than this
 }
@@ -77,7 +79,7 @@ for r in scene.replace ?? [] {
   content = p.outputImage!
   // Screens photographed by a phone are a little soft and lifted; match that.
   content = content.clampedToExtent().applyingGaussianBlur(sigma: r.soften ?? 0.8).cropped(to: content.extent)
-  let b = CIFilter.colorControls(); b.inputImage = content; b.brightness = Float(r.brightness ?? 0) ; b.contrast = 0.92; content = b.outputImage!
+  let b = CIFilter.colorControls(); b.inputImage = content; b.brightness = Float(r.brightness ?? 0) ; b.contrast = r.emit == nil ? 0.92 : 1.0; content = b.outputImage!
   // Mask: the quad itself, edges feathered by a pixel so it sits inside the bezel.
   let m = CIFilter.perspectiveTransform()
   m.inputImage = CIImage(color: .white).cropped(to: CGRect(x: 0, y: 0, width: 100, height: 100))
@@ -89,8 +91,27 @@ for r in scene.replace ?? [] {
     let mul = CIFilter.multiplyCompositing(); mul.inputImage = bright; mul.backgroundImage = mask; mask = mul.outputImage!.cropped(to: photo.extent)
   }
   if r.overlay == true { photo = content.composited(over: photo).cropped(to: photo.extent); continue }
+  if let e = r.emit {
+    // Light output: lift the content, then keep a trace of the glass so it reads as a real screen.
+    let ex = CIFilter.exposureAdjust(); ex.inputImage = content; ex.ev = Float(0.35 * e); content = ex.outputImage!
+    let glass = CIFilter.screenBlendMode(); let qq = r.quad.map { pt($0) }; let qwid = hypot(qq[1].x - qq[0].x, qq[1].y - qq[0].y)
+    // only broad glare from the room survives, never the old picture: blur it far past legibility
+    glass.inputImage = photo.applyingFilter("CIColorControls", parameters: ["inputSaturation": 0, "inputBrightness": -0.3]).clampedToExtent().applyingGaussianBlur(sigma: max(6, qwid * 0.12)).cropped(to: photo.extent); glass.backgroundImage = content
+    let mixg = CIFilter.dissolveTransition(); mixg.inputImage = content; mixg.targetImage = glass.outputImage!; mixg.time = Float(r.glass ?? 0.15); content = mixg.outputImage!.cropped(to: photo.extent)
+  }
   let bl = CIFilter.blendWithMask(); bl.inputImage = content; bl.backgroundImage = photo; bl.maskImage = mask
   photo = bl.outputImage!.cropped(to: photo.extent)
+  if let e = r.emit {
+    // Bloom and spill: the screen's own light glowing into the bezel, set and haze around it.
+    let q = r.quad.map { pt($0) }; let qw = hypot(q[1].x - q[0].x, q[1].y - q[0].y)
+    let lit = CIFilter.blendWithMask(); lit.inputImage = content; lit.backgroundImage = CIImage(color: .black).cropped(to: photo.extent); lit.maskImage = mask
+    for (sig, amt) in [(max(3, qw * 0.012), 0.22), (max(8, qw * 0.06), 0.20)] {
+      let gl = lit.outputImage!.clampedToExtent().applyingGaussianBlur(sigma: sig).cropped(to: photo.extent)
+      let k = CGFloat(amt * e); let cm = CIFilter.colorMatrix(); cm.inputImage = gl
+      cm.rVector = CIVector(x: k, y: 0, z: 0, w: 0); cm.gVector = CIVector(x: 0, y: k, z: 0, w: 0); cm.bVector = CIVector(x: 0, y: 0, z: k, w: 0); cm.aVector = CIVector(x: 0, y: 0, z: 0, w: 0)
+      let ad = CIFilter.additionCompositing(); ad.inputImage = cm.outputImage!; ad.backgroundImage = photo; photo = ad.outputImage!.cropped(to: photo.extent)
+    }
+  }
 }
 
 // 2. Soften small areas (distant logos, printed running orders) like natural defocus.

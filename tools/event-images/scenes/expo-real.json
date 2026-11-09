@@ -29,7 +29,7 @@
     ]
    ],
    "image": "../screens/logo-print.png",
-   "soften": 0.6,
+   "soften": 1.1,
    "overlay": true
   },
   {
@@ -53,7 +53,7 @@
    ],
    "image": "../screens/testcard-3840x2448.png",
    "soften": 1.0,
-   "brightness": -0.03
+   "emit": 1.0
   },
   {
    "quad": [
@@ -75,7 +75,8 @@
     ]
    ],
    "image": "../screens/testcard-1080x1920.png",
-   "soften": 1.0
+   "soften": 1.0,
+   "emit": 1.0
   },
   {
    "quad": [
@@ -98,7 +99,8 @@
    ],
    "image": "../screens/testcard-1080x1920.png",
    "soften": 1.0,
-   "keepDark": 0.16
+   "keepDark": 0.16,
+   "emit": 1.0
   },
   {
    "quad": [
@@ -120,7 +122,8 @@
     ]
    ],
    "image": "../screens/pp-plain.png",
-   "soften": 1.0
+   "soften": 1.0,
+   "emit": 0.8
   },
   {
    "quad": [
@@ -143,7 +146,8 @@
    ],
    "image": "../screens/pp-plain.png",
    "soften": 1.0,
-   "keepDark": 0.16
+   "keepDark": 0.16,
+   "emit": 0.8
   },
   {
    "quad": [
@@ -165,7 +169,8 @@
     ]
    ],
    "image": "../screens/testcard-3840x2160.png",
-   "soften": 1.0
+   "soften": 1.0,
+   "emit": 1.0
   },
   {
    "quad": [
@@ -187,7 +192,8 @@
     ]
    ],
    "image": "../screens/band-pp.png",
-   "soften": 1.0
+   "soften": 1.0,
+   "emit": 1.0
   },
   {
    "quad": [
@@ -209,7 +215,8 @@
     ]
    ],
    "image": "../screens/testcard-1080x1920.png",
-   "soften": 1.0
+   "soften": 1.0,
+   "emit": 1.0
   }
  ],
  "colour": [
