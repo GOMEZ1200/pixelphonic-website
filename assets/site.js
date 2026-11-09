@@ -91,4 +91,13 @@
   addEventListener('scroll', request, { passive: true });
   addEventListener('resize', request);
   frame();
+
+  // Logo strip: start moving only once every logo has loaded, so the loop width never changes mid-scroll
+  const brands = document.querySelector('.brands');
+  if (brands) {
+    const imgs = [...brands.querySelectorAll('img')];
+    const go = () => brands.classList.add('ready');
+    Promise.all(imgs.map(i => i.complete ? null : new Promise(r => { i.addEventListener('load', r, { once: true }); i.addEventListener('error', r, { once: true }); }))).then(go);
+    setTimeout(go, 4000);
+  }
 })();
