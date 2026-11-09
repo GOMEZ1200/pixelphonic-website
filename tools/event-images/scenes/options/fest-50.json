@@ -1,0 +1,26 @@
+{
+ "input": "../../../../reference/jobs/wide50.jpg",
+ "output": "../../out/options/fest-50.jpg",
+ "width": 1600,
+ "colour": [
+  {
+   "rect": [
+    0,
+    0,
+    1,
+    1
+   ]
+  }
+ ],
+ "sat": 0.5,
+ "val": 0.55,
+ "grain": 0.045,
+ "vignette": 0.45,
+ "contrast": 1.1,
+ "crop": [
+  0,
+  0.18,
+  1,
+  0.496
+ ]
+}

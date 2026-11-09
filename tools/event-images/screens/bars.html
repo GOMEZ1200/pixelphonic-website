@@ -1,0 +1,9 @@
+<!doctype html><html><body style="margin:0;width:1920px;height:1080px;overflow:hidden;background:#000"><canvas id="c" width="1920" height="1080"></canvas><script>
+// SMPTE-style 75% colour bars.
+const g=document.getElementById('c').getContext('2d'),W=1920,H=1080,w=W/7;
+['#c0c0c0','#c0c000','#00c0c0','#00c000','#c000c0','#c00000','#0000c0'].forEach((c,i)=>{g.fillStyle=c;g.fillRect(i*w,0,w+1,H*0.67)});
+['#0000c0','#131313','#c000c0','#131313','#00c0c0','#131313','#c0c0c0'].forEach((c,i)=>{g.fillStyle=c;g.fillRect(i*w,H*0.67,w+1,H*0.08)});
+const b=W/6*5/4;['#00214c','#ffffff','#32006a','#131313'].forEach((c,i)=>{g.fillStyle=c;g.fillRect(i*b,H*0.75,b+1,H*0.25)});
+g.fillStyle='#131313';g.fillRect(4*b,H*0.75,W-4*b,H*0.25);
+['#090909','#131313','#1d1d1d'].forEach((c,i)=>{g.fillStyle=c;g.fillRect(5*w+i*w/3,H*0.75,w/3+1,H*0.25)});
+</script></body></html>

@@ -1,0 +1,22 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000;overflow:hidden}canvas{display:block}</style></head><body><canvas id="c"></canvas>
+<script>
+// LED test grid in the style of a pixel-mapping pattern: numbered tiles, diagonals, circles, resolution label.
+const q=new URLSearchParams(location.search), W=+q.get('w')||3840, H=+q.get('h')||2160, T=+q.get('t')||240;
+const c=document.getElementById('c'); c.width=W; c.height=H; const g=c.getContext('2d');
+const cols=['#8a1fb0','#1b9cc4','#8c8c12','#2b2bb0','#12a428','#8c0e1a'];
+const nx=Math.ceil(W/T), ny=Math.ceil(H/T);
+for(let r=0;r<ny;r++)for(let k=0;k<nx;k++){
+  g.fillStyle=cols[(k+r*2)%cols.length]; g.fillRect(k*T,r*T,T,T);
+  g.strokeStyle='rgba(255,255,255,.55)'; g.lineWidth=3; g.strokeRect(k*T+1.5,r*T+1.5,T-3,T-3);
+  g.fillStyle='#fff'; g.font=`600 ${T*0.17}px Helvetica,Arial`; g.fillText(`${r+1},${k+1}`,k*T+T*0.06,r*T+T*0.22);
+}
+g.strokeStyle='rgba(120,255,255,.85)'; g.lineWidth=Math.max(3,H/360);
+g.beginPath(); g.moveTo(0,0); g.lineTo(W,H); g.moveTo(W,0); g.lineTo(0,H); g.stroke();
+g.strokeStyle='rgba(255,255,255,.9)'; g.beginPath(); g.arc(W/2,H/2,H*0.48,0,7); g.stroke();
+const cr=H*0.22; [[cr,cr],[W-cr,cr],[cr,H-cr],[W-cr,H-cr]].forEach(([x,y])=>{g.beginPath();g.arc(x,y,cr*0.95,0,7);g.stroke();});
+g.strokeStyle='#fff'; g.lineWidth=6; g.strokeRect(3,3,W-6,H-6);
+const fs=H*(H/W<0.3?0.42:0.16); g.font=`800 ${fs}px Helvetica,Arial`; g.textAlign='center'; g.textBaseline='middle';
+g.lineWidth=fs*0.06; g.strokeStyle='rgba(0,0,0,.6)'; const lab=`${W} x ${H}`;
+g.strokeText(lab,W/2,H/2-(H/W<0.3?0:fs*0.35)); g.fillStyle='#ffd21a'; g.fillText(lab,W/2,H/2-(H/W<0.3?0:fs*0.35));
+if(H/W>=0.3){const bw=W*0.42,bh=fs*0.45,bx=W/2-bw/2,by=H/2+fs*0.35;const bars=['#c0c0c0','#c0c000','#00c0c0','#00c000','#c000c0','#c00000','#0000c0'];bars.forEach((b,i)=>{g.fillStyle=b;g.fillRect(bx+i*bw/7,by,bw/7,bh)});}
+</script></body></html>
