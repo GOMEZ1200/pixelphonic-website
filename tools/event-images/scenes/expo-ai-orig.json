@@ -1,0 +1,20 @@
+{
+ "input": "../../../reference/generated/expo-grid-1.png",
+ "output": "../out/expo-ai-orig.jpg",
+ "width": 1536,
+ "colour": [
+  {
+   "rect": [
+    0.2,
+    0,
+    0.85,
+    0.8
+   ]
+  }
+ ],
+ "sat": 0.3,
+ "val": 0.3,
+ "grain": 0.04,
+ "vignette": 0.45,
+ "contrast": 1.08
+}

@@ -1,0 +1,20 @@
+{
+ "input": "../../../reference/generated/conf-3.png",
+ "output": "../out/conf-ai-orig.jpg",
+ "width": 1536,
+ "colour": [
+  {
+   "rect": [
+    0,
+    0,
+    1,
+    1
+   ]
+  }
+ ],
+ "sat": 0.45,
+ "val": 0.45,
+ "grain": 0.045,
+ "vignette": 0.45,
+ "contrast": 1.1
+}
