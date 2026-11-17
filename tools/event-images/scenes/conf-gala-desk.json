@@ -1,0 +1,14 @@
+{
+ "input": "../../../reference/craig/conf-gala-desk-original.jpg",
+ "output": "../out/conf-gala-desk.jpg",
+ "width": 2000,
+ "colour": [
+  {"rect": [0.485, 0.745, 0.62, 0.905]},
+  {"rect": [0.615, 0.776, 0.655, 0.80]}
+ ],
+ "sat": 0.45,
+ "val": 0.45,
+ "grain": 0.05,
+ "vignette": 0.45,
+ "contrast": 1.1
+}
